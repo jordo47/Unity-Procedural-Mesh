@@ -30,4 +30,8 @@ namespace ProceduralMeshes {
 
         public void Execute (int i) => generator.Execute(i, streams);
     }
+
+    public delegate JobHandle MeshJobScheduleDelegate(
+        Mesh mesh, Mesh.MeshData meshData, int resolution, JobHandle dependency
+    );
 }
