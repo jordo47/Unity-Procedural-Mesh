@@ -67,12 +67,15 @@
     <Compile Include="Assets\Scripts\Procedural Meshes\Streams\SingleStream.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\IMeshStreams.cs" />
     <Compile Include="Assets\Scripts\AdvancedSingleStreamProceduralMesh.cs" />
+    <Compile Include="Assets\Scripts\Procedural Meshes\Generators\FlatHexagonGrid.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\Vertex.cs" />
+    <Compile Include="Assets\Scripts\Procedural Meshes\Generators\PointyHexagonGrid.cs" />
     <Compile Include="Assets\Scripts\SimpleProceduralMesh.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\Streams\MultiStream.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\MeshJob.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\IMeshGenerator.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\Streams\TriangleUInt16.cs" />
+    <Compile Include="Assets\Scripts\Procedural Meshes\Generators\SharedTriangleGrid.cs" />
     <Compile Include="Assets\Scripts\ProceduralMesh.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\Generators\SharedSquareGrid.cs" />
     <Compile Include="Assets\Scripts\AdvancedMultiStreamProceduralMesh.cs" />

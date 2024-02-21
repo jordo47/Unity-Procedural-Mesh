@@ -1,5 +1,4 @@
 using Unity.Mathematics;
-using UnityEditor.Compilation;
 using UnityEngine;
 
 using static Unity.Mathematics.math;
