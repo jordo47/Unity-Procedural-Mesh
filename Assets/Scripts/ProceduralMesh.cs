@@ -32,7 +32,6 @@ public class ProceduralMesh : MonoBehaviour {
     Vector3[] vertices, normals;
 
     Vector4[] tangents;
-
     Camera MainCam;
 
     [System.Flags]
@@ -40,6 +39,14 @@ public class ProceduralMesh : MonoBehaviour {
 
     [SerializeField]
     GizmoMode gizmos;
+
+    public enum MaterialMode { Flat, Ripple, LatLonMap, CubeMap }
+
+    [SerializeField]
+    MaterialMode material;
+
+    [SerializeField]
+    Material[] materials;
 
     void Awake () {
         mesh = new Mesh {
@@ -54,7 +61,7 @@ public class ProceduralMesh : MonoBehaviour {
         GenerateMesh();
         MainCam = Camera.main;
         if((int)meshType > 4) {
-            MainCam.transform.position = new Vector3(0.5f, 1.5f, -1f);
+            MainCam.transform.position = new Vector3(0f, 1.5f, -1.75f);
             MainCam.transform.rotation = Quaternion.Euler(new Vector3(35f, 0f, 0f));
         } else {
             MainCam.transform.position = new Vector3(0f, 1f, -0.4f);
@@ -65,6 +72,8 @@ public class ProceduralMesh : MonoBehaviour {
         vertices = null;
         normals = null;
         tangents = null;
+
+        GetComponent<MeshRenderer>().material = materials[(int)material];
     }
 
     void GenerateMesh () {
