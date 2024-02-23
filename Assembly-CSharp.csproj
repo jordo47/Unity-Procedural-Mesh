@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Procedural Meshes\Vertex.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\Generators\PointyHexagonGrid.cs" />
     <Compile Include="Assets\Scripts\SimpleProceduralMesh.cs" />
+    <Compile Include="Assets\Scripts\Procedural Meshes\Generators\UVSphere.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\Streams\MultiStream.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\MeshJob.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\IMeshGenerator.cs" />
