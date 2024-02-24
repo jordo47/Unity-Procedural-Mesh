@@ -13,12 +13,13 @@ public class ProceduralMesh : MonoBehaviour {
         MeshJob<SharedTriangleGrid, SingleStream>.ScheduleParallel,
         MeshJob<PointyHexagonGrid, SingleStream>.ScheduleParallel,
         MeshJob<FlatHexagonGrid, SingleStream>.ScheduleParallel,
-        MeshJob<UVSphere, SingleStream>.ScheduleParallel
+        MeshJob<UVSphere, SingleStream>.ScheduleParallel,
+        MeshJob<CubeSphere, SingleStream>.ScheduleParallel
     };
 
     public enum MeshType {
         SquareGrid, SharedSquareGrid, SharedTriangleGrid, PointyHexagonGrid,
-        FlatHexagonGrid, UVSphere
+        FlatHexagonGrid, UVSphere, CubeSphere
     };
 
     [SerializeField]
@@ -91,8 +92,8 @@ public class ProceduralMesh : MonoBehaviour {
         }
 
         bool drawVertices = (gizmos & GizmoMode.Vertices) != 0;
-        bool drawNormals = (gizmos & GizmoMode.Vertices) != 0;
-        bool drawTangents = (gizmos & GizmoMode.Vertices) != 0;
+        bool drawNormals = (gizmos & GizmoMode.Normals) != 0;
+        bool drawTangents = (gizmos & GizmoMode.Tangents) != 0;
 
         if (vertices == null) {
             vertices = mesh.vertices;

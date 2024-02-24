@@ -77,6 +77,7 @@
     <Compile Include="Assets\Scripts\Procedural Meshes\IMeshGenerator.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\Streams\TriangleUInt16.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\Generators\SharedTriangleGrid.cs" />
+    <Compile Include="Assets\Scripts\Procedural Meshes\Generators\CubeSphere.cs" />
     <Compile Include="Assets\Scripts\ProceduralMesh.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\Generators\SharedSquareGrid.cs" />
     <Compile Include="Assets\Scripts\AdvancedMultiStreamProceduralMesh.cs" />
