@@ -4,13 +4,12 @@ using UnityEngine;
 using static Unity.Mathematics.math;
 
 namespace ProceduralMeshes.Generators {
-
-    public struct Side {
-        public int id;
-        public float3 uvOrigin, uVector, vVector;
-    }
-    
+   
     public struct CubeSphere : IMeshGenerator {
+        struct Side {
+            public int id;
+            public float3 uvOrigin, uVector, vVector;
+        }
 
         static Side GetSide (int id) => id switch {
             0 => new Side {

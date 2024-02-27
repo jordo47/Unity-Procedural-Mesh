@@ -14,12 +14,13 @@ public class ProceduralMesh : MonoBehaviour {
         MeshJob<PointyHexagonGrid, SingleStream>.ScheduleParallel,
         MeshJob<FlatHexagonGrid, SingleStream>.ScheduleParallel,
         MeshJob<UVSphere, SingleStream>.ScheduleParallel,
-        MeshJob<CubeSphere, SingleStream>.ScheduleParallel
+        MeshJob<CubeSphere, SingleStream>.ScheduleParallel,
+        MeshJob<SharedCubeSphere, PositionStream>.ScheduleParallel
     };
 
     public enum MeshType {
         SquareGrid, SharedSquareGrid, SharedTriangleGrid, PointyHexagonGrid,
-        FlatHexagonGrid, UVSphere, CubeSphere
+        FlatHexagonGrid, UVSphere, CubeSphere, SharedCubeSphere
     };
 
     [SerializeField]
@@ -30,13 +31,21 @@ public class ProceduralMesh : MonoBehaviour {
     [SerializeField, Range(1, 50)]
     int resolution = 1;
 
+    [System.NonSerialized]
     Vector3[] vertices, normals;
 
+    [System.NonSerialized]
     Vector4[] tangents;
+
+    [System.NonSerialized]
+    int[] triangles;
+
     Camera MainCam;
 
     [System.Flags]
-    public enum GizmoMode { Nothing = 0, Vertices = 1, Normals = 0b10, Tangents = 0b100 }
+    public enum GizmoMode {
+        Nothing = 0, Vertices = 1, Normals = 0b10, Tangents = 0b100, Triangles = 0b1000
+    }
 
     [SerializeField]
     GizmoMode gizmos;
@@ -49,6 +58,14 @@ public class ProceduralMesh : MonoBehaviour {
     [SerializeField]
     Material[] materials;
 
+    [System.Flags]
+    public enum MeshOptimizationMode {
+        Nothing = 0, ReorderIndices = 1, ReorderVertices = 0b10
+    }
+
+    [SerializeField]
+    MeshOptimizationMode meshOptimization;
+
     void Awake () {
         mesh = new Mesh {
             name = "Procedural Mesh"
@@ -60,6 +77,7 @@ public class ProceduralMesh : MonoBehaviour {
 
     void Update () {
         GenerateMesh();
+
         MainCam = Camera.main;
         if((int)meshType > 4) {
             MainCam.transform.position = new Vector3(0f, 1.5f, -1.75f);
@@ -68,11 +86,12 @@ public class ProceduralMesh : MonoBehaviour {
             MainCam.transform.position = new Vector3(0f, 1f, -0.4f);
             MainCam.transform.rotation = Quaternion.Euler(new Vector3(75f, 0f, 0f));
         }
-        enabled = false;
 
+        enabled = false;
         vertices = null;
         normals = null;
         tangents = null;
+        triangles = null;
 
         GetComponent<MeshRenderer>().material = materials[(int)material];
     }
@@ -84,6 +103,13 @@ public class ProceduralMesh : MonoBehaviour {
         jobs[(int)meshType](mesh, meshData, resolution, default).Complete();
 
         Mesh.ApplyAndDisposeWritableMeshData(meshDataArray, mesh);
+
+        if (meshOptimization == MeshOptimizationMode.ReorderIndices)
+            mesh.OptimizeIndexBuffers();
+        else if (meshOptimization == MeshOptimizationMode.ReorderVertices)
+            mesh.OptimizeReorderVertexBuffer();
+        else
+            mesh.Optimize();
     }
 
     void OnDrawGizmos () {
@@ -94,17 +120,26 @@ public class ProceduralMesh : MonoBehaviour {
         bool drawVertices = (gizmos & GizmoMode.Vertices) != 0;
         bool drawNormals = (gizmos & GizmoMode.Normals) != 0;
         bool drawTangents = (gizmos & GizmoMode.Tangents) != 0;
+        bool drawTriangles = (gizmos & GizmoMode.Triangles) != 0;
 
         if (vertices == null) {
             vertices = mesh.vertices;
         }
         
         if (drawNormals && normals == null) {
-            normals = mesh.normals;
+            drawNormals = mesh.HasVertexAttribute(VertexAttribute.Normal);
+            if (drawNormals)
+                normals = mesh.normals;
         }
 
         if (drawTangents && tangents == null) {
-            tangents = mesh.tangents;
+            drawTangents = mesh.HasVertexAttribute(VertexAttribute.Tangent);
+            if (drawTangents)
+                tangents = mesh.tangents;
+        }
+
+        if (drawTriangles && triangles == null) {
+            triangles = mesh.triangles;
         }
 
         Transform t = transform;
@@ -125,6 +160,22 @@ public class ProceduralMesh : MonoBehaviour {
             if (drawTangents) {
                 Gizmos.color = Color.red;
                 Gizmos.DrawRay(position, t.TransformDirection(tangents[i]) * 0.2f);
+            }
+
+            if (drawTriangles) {
+                float colorStep = 1f / (triangles.Length - 3);
+                for (int j = 0; j < triangles.Length; j += 3) {
+                    float c = j * colorStep;
+                    Gizmos.color = new Color(c, 0f, c);
+                    Gizmos.DrawSphere(
+                        t.TransformPoint((
+                            vertices[triangles[j]] +
+                            vertices[triangles[j + 1]] +
+                            vertices[triangles[j + 2]]
+                        ) * (1f / 3f)),
+                        0.02f
+                    );
+                }
             }
             
         }

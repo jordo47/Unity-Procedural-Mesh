@@ -409,15 +409,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d23711e5085ddd44b9709afec2ce512, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meshType: 6
+  meshType: 7
   resolution: 1
   gizmos: 0
-  material: 0
+  material: 3
   materials:
   - {fileID: 2100000, guid: eafc5a62bbb23d74d89ef8b0c6615b47, type: 2}
   - {fileID: 2100000, guid: f2fe05f226c083e4c849b43b5c534fde, type: 2}
   - {fileID: 2100000, guid: ed0ea36e54f8ad845b84e3499898106c, type: 2}
   - {fileID: 2100000, guid: 31862792a89507a4fa3c09f9e51354b3, type: 2}
+  meshOptimization: 0
 --- !u!23 &1319984657
 MeshRenderer:
   m_ObjectHideFlags: 0
