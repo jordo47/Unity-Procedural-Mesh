@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\Procedural Meshes\IMeshStreams.cs" />
     <Compile Include="Assets\Scripts\AdvancedSingleStreamProceduralMesh.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\Generators\FlatHexagonGrid.cs" />
+    <Compile Include="Assets\Scripts\Procedural Meshes\Generators\Octasphere.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\Vertex.cs" />
     <Compile Include="Assets\Scripts\Procedural Meshes\Generators\PointyHexagonGrid.cs" />
     <Compile Include="Assets\Scripts\SimpleProceduralMesh.cs" />
